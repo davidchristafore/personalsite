@@ -29,13 +29,13 @@ social:
   icon: twitter
   icon_pack: fab
   label: Follow me on Twitter
-  link: https://twitter.com/David59209213
+  link: https://twitter.com/drchristafore
 - icon: graduation-cap
   icon_pack: fas
   link: https://scholar.google.com/citations?user=lp_Y_L4AAAAJ&hl=en
 - icon: github
   icon_pack: fab
-  link: https://github.com/dchristafore
+  link: https://github.com/davidchristafore
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/david-christafore-742b38132/
