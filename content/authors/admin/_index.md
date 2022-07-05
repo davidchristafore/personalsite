@@ -21,9 +21,9 @@ interests:
 - Tennis
 - Traveling
 organizations:
-- name: University of California Merced
-  url: https://www.ucmerced.edu/
-role: Lecturer in Economics
+- name: 
+  url: 
+role: 
 social:
 - icon: envelope
   icon_pack: fas
