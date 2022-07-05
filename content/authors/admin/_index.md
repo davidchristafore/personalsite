@@ -1,5 +1,5 @@
 ---
-bio: My research interests include urban economics, labor economics, and housing economics.
+title: "David Christafore"
 education:
   courses:
   - course: PhD in Economics
@@ -8,14 +8,18 @@ education:
   - course: BA in Economics
     institution: University of Pittsburgh
     year: 2004
-email: ""
-highlight_name: true
+email: ''
+highlight_name: yes
 interests:
 - Economics
 - Statistics
-- R 
+- Data Analysis
+- Data Science
+- R Programming
 - Hiking
 - Skiing
+- Tennis
+- Traveling
 organizations:
 - name: University of California Merced
   url: https://www.ucmerced.edu/
@@ -23,9 +27,9 @@ role: Lecturer in Economics
 social:
 - icon: envelope
   icon_pack: fas
-  link: "mailto:david.r.christafore@gmail.com"
+  link: mailto:david.r.christafore@gmail.com
 - display:
-    header: true
+    header: yes
   icon: twitter
   icon_pack: fab
   label: Follow me on Twitter
@@ -39,11 +43,11 @@ social:
 - icon: linkedin
   icon_pack: fab
   link: https://www.linkedin.com/in/david-christafore-742b38132/
-superuser: true
-title: David Christafore
+superuser: yes
+bio: My research interests include urban economics, labor economics, and housing economics.
 ---
 
-I am a PhD economist with research in urban, labor, and housing economics. Since Fall 2020 I have been a lecturer at University of California Merced, where I have remotely taught Health Economics, Labor Economics, and Statistical Inference. 
+I am a PhD economist with 15 years of experience in academia. My research has been in the fields of urban, labor, and housing economics, and I have published nine coauthored papers in academic journals. Additionally, I have taught introductory and intermediate microeconomics and macroeconomics, statistics, research methods, and a variety of field courses such as labor, development, and health economics. 
 
 {{< icon name="download" pack="fas" >}} Download my {{< staticref "uploads/christafore_cv.pdf" "newtab" >}}CV{{< /staticref >}}.
 
