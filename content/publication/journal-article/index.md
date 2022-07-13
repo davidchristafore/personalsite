@@ -1,52 +1,38 @@
 ---
-abstract: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus
-  ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum. Sed
-  ac faucibus dolor, scelerisque sollicitudin nisi. Cras purus urna, suscipit quis
-  sapien eu, pulvinar tempor diam. Quisque risus orci, mollis id ante sit amet, gravida
-  egestas nisl. Sed ac tempus magna. Proin in dui enim. Donec condimentum, sem id
-  dapibus fringilla, tellus enim condimentum arcu, nec volutpat est felis vel metus.
-  Vestibulum sit amet erat at nulla eleifend gravida.
+title: "The Influence of Land Use Regulation on the Probability That Low-Income Neighbourhoods Will Gentrify"
+authors:
+- Susane Leguizamon
+- David Christafore
+date: ''
 author_notes:
 - Equal contribution
 - Equal contribution
-authors:
-- admin
-- Robert Ford
-date: "2015-09-01T00:00:00Z"
-doi: ""
-featured: false
+doi: 'https://doi.org/10.1177/0042098020940163'
+publishDate: "2021-04-01T00:00:00Z"
+publication_types: '2'
+publication: '*Urban Studies, 58*(5)'
+publication_short: ''
+abstract: The divergence in housing price growth in the US in coastal cities relative to inland cities has been thought to occur, in large part, due to severe housing regulations and restrictions on development. Researchers have posited that this trend implies that these heavily regulated cities are experiencing higher incidences of gentrification. However, the gentrification of lower-income communities may be negatively influenced by restrictive regulations rather than positively, as is the case with overall housing price growth. This may occur if restrictions make it more difficult to improve housing structures and engage in new housing projects. We use data from over 12,000 census tracts to analyse the relationship between land use regulations and the probability an area will undergo gentrification in the years 2000 to 2010. By separating the influence of higher levels of regulation on overall housing price growth from the likelihood that a lower-income neighbourhood will gentrify, we find that regulation has opposing forces. While increased levels of regulation are associated with an almost 10% greater increase in overall housing prices, they are also associated with a three to four percentage-point lower probability that a lower-income tract will experience gentrification, contrary to previous conclusions.
+summary: 
+tags: 
+featured: no
+url_pdf: ''
+url_code: "https://github.com/davidchristafore/gent_reg"
+url_dataset: ''
+url_poster: ''
+url_project: ''
+url_slides: ''
+url_source: ''
+url_video: ''
+
 image:
-  caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/jdD8gXaTZsc)'
-  focal_point: ""
-  preview_only: false
+  caption: 'Image credit: [**Miguel A. Amutio**](https://unsplash.com/photos/IRU7TuXXsbE)'
+  focal_point: ''
+  preview_only: no
 projects: []
-publication: '*Journal of Source Themes, 1*(1)'
-publication_short: ""
-publication_types:
-- "2"
-publishDate: "2017-01-01T00:00:00Z"
-slides: example
-summary: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis posuere tellus
-  ac convallis placerat. Proin tincidunt magna sed ex sollicitudin condimentum.
-tags:
-- Source Themes
-title: An example journal article
-url_code: https://github.com/wowchemy/wowchemy-hugo-themes
-url_dataset: ""
-url_pdf: http://arxiv.org/pdf/1512.04133v1
-url_poster: ""
-url_project: ""
-url_slides: ""
-url_source: ""
-url_video: ""
+slides: 
 ---
 
-{{% callout note %}}
-Click the *Cite* button above to demo the feature to enable visitors to import publication metadata into their reference management software.
-{{% /callout %}}
 
-{{% callout note %}}
-Create your slides in Markdown - click the *Slides* button to check out the example.
-{{% /callout %}}
+  
 
-Supplementary notes can be added here, including [code, math, and images](https://wowchemy.com/docs/writing-markdown-latex/).

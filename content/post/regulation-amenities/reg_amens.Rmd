@@ -1,0 +1,128 @@
+---
+title: "Analyzing the Relationship between County Natural Amenities and Land-Use Regulations"
+output: html_document
+date: "2022-07-12"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(message = FALSE)
+knitr::opts_chunk$set(warning = FALSE)
+```
+
+I start by loading the packages I will need for the analysis. This is the document. Let's make it great.
+
+
+
+```{r load packages}
+library(readxl) # For importing Excel files
+library(haven)  # For importing Stata files
+library(tidyverse) 
+```
+
+The Wharton Residential Land Use Regulation Index (WRLURI) is an aggregate index measuring the regulatory constraint on development in a neighborhood. The index was originally published in 2008 and an updated version was published in 2018. For this analysis, I use the 2008 version. The data are downloaded as a Stata Data file, so I use the `read_dta` function from the `haven` package to import it.
+
+The data set includes a lot of variables on the on answers to the questions used to create the WRLURI. I limit the data set to just the geographic variables, state name and ufips, and the WRLURI. Furthermore, I drop places in Alaska and Hawaii. These states are not included in the natural amenities index. Also, some entries have been included in the data set for which the WRLURI wasn't calculated, and I drop these observations as well/
+
+```{r wrluri_raw}
+wrluri_raw <- read_dta("WHARTON LAND REGULATION DATA_1_24_2008.dta") |> 
+  select(statename, ufips, WRLURI) |> 
+  filter(!is.na(WRLURI), !statename %in% c("AK", "HI"))
+
+glimpse(wrluri_raw)
+```
+
+Taking a glimpse at the data, we see there are 2605 place observations. `statename` is a character variable giving the two letter state abbreviation, `ufips` is a dbl variable for the place code within the state, and `WRLURI` is the regulation index. `statename` and `ufips` should uniquely identify places in the data set, which I first check for.
+
+```{r check_unique}
+wrluri_raw |> 
+  count(statename, ufips) |> 
+  filter(n > 1)
+```
+
+In fact, we see two places, one in FL and one in CT, have multiple observations. Without having any additional data on why I have these two duplicates, I will take the average of their WRLURI scores for the place WRLURI. Also, `ufips` being an identifier should really be a character variable. Since it is numeric, the leading 0s in the 5 digit codes have been dropped, which could cause problems when joining this data to other data. I add back in the leading 0s and make it into a character type. 
+
+```{r wrluri}
+wrluri <- wrluri_raw |>
+  group_by(statename, ufips) |>
+  summarize(across(where(is.numeric), mean), .groups = "drop") |> 
+  mutate(ufips = str_pad(as.character(ufips), 5, "left", "0"))
+```
+
+We have the WRLURI data at the Census place level. The natural amenity data is at the county level. Therefore, I need to use the WRLURI data to assign regulation scores at the county level. To do this, I have to connect Census places to counties. The best resource for this is the Mable Missouri site. I download a crosswalk file from there in `geocorr2000.csv`. 
+
+```{r counties_cross_raw}
+counties_cross_raw <- read_csv("geocorr2000.csv", skip = 1)
+head(counties_cross_raw)
+```
+
+Inspecting the data, we see that each county has its population broken down by county subdivision (`cousubfp`) and place (`placefp`). The `ufips` code in the WRLURI data actually represents either a county subdivision or a place code. Therefore, in joining the two data sets, we need to join `ufips` on each of these codes. Also, take into consideration that for some places within counties the `cousubfp` and `placefp` are the same. Therefore, after joining the data, I create one WRLURI score for each part of a county by using the WRLURI value found in the WRLURI column from either join.
+
+```{r wrluri_counties}
+wrluri_counties <- counties_cross_raw |> 
+  rename(statename = `State Postal Code`, pop = `Total Pop, 2000 census`) |>
+  left_join(wrluri, by = c("statename", "placefp" = "ufips")) |> 
+  left_join(wrluri, by = c("statename", "cousubfp" = "ufips")) |> 
+  mutate(WRLURI = if_else(!is.na(WRLURI.x), WRLURI.x, WRLURI.y))
+```
+
+Now for each part of a county, we have that parts population and the WRLURI index if one exists in the data. To create a WRLURI index for each county, I calculate a population weighted average of all the WRLURI scores that I have for that county. I first drop all county parts without any WRLURI score. In the resulting data, only counties where some part of the county has a regulation score are included. 
+
+
+```{r wrluri_by_county}
+wrluri_by_county <- wrluri_counties |> 
+  filter(!is.na(WRLURI)) |> 
+  mutate(weighted_WRLURI = pop * WRLURI) |> 
+  group_by(county, statename, cntyname) |> 
+  summarize(WRLURI = sum(weighted_WRLURI) / sum(pop), .groups = "drop") 
+
+glimpse(wrluri_by_county)
+```
+
+The resulting data contains WRLURI observations for 1194 counties. The next step is to import the natural amenity data. The file containing the natural amenity rankings `natamenf_1_.xls` is available for download from somewhere. I use the `read_excel` function from the `readxl` package to import the data. 
+
+By first opening the file in Excel, I see the first 101 lines are metadata with definitions of the variables. Lines 102 to 105 contain the column names, and the
+observations begin on line 106. I import the data skipping the first 105 lines, and including the geographic and natural amenity variables important to the analysis. Additionally, after some research, I learned that the Census code for Miami-Dade county was updated in later years from the 12025 used in this data to the 12086 used in the county data, so I make this adjustment. 
+
+```{r amenities}
+nm <- c("county", "census_div", "amenity_scale", "amenity_rank")
+typ <- c("text", rep("skip", 3), "numeric", rep("skip", 15), rep("numeric", 2))
+
+amenities <- read_excel("natamenf_1_.xls", 
+                        col_names = nm, 
+                        col_types = typ, 
+                        skip = 105) |> 
+  mutate(county = if_else(county == "12025", "12086", county))
+
+glimpse(amenities)
+```
+
+The resulting data frame includes `amenity_scale`, `amenity_rank` based on that scale, `census_div` code, and `county` code. `amenity_scale` is an aggregate score for each county and the rank places counties into quartiles based on the scale. `census_div` will be easier to work with if we recode it using the names of the divisions represented by the codes. 
+
+```{r amenities_recode}
+divisions <- c("New England", "Middle Atlantic", "East North Central", 
+               "West North Central", "South Atlantic", "East South Central",
+               "West South Central", "Mountain", "Pacific")
+
+amenities_recode <- amenities |> 
+  mutate(census_div = factor(census_div, labels = divisions))
+```
+
+The file `all_final_codes.xls` from somewhere contains county data on whether the county is urban or rural and whether it has a dependence on certain industries, among other things. The data set is on sheet 2 of the workbook; other sheets contain descriptions of the data and variable definitions. When importing the data, I rename variables to align them with the other data sets and keep all the economic variables and the geographic ones needed for joining to the rest of the data. (don't need to get into FIPS vs BEA difference since 
+not using BEA data here). 
+
+```{r typologies}
+typologies <- read_excel("all_final_codes.xls", sheet = 2) %>% 
+  rename(county = FIPSTXT, statename = State) %>% 
+  select(-FIPS, -County, -BEA_fips)
+```
+
+Join typologies to amenities .. 30113 & 51780 un matched
+
+```{r }
+join_df <- amenities |> 
+  left_join(typologies, by = "county") |> 
+  left_join(wrluri_by_county, by = c("county", "statename"))
+
+```
+
