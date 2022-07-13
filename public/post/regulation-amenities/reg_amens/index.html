@@ -1,0 +1,1239 @@
+<!DOCTYPE html><html lang="en-us" >
+
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  
+  
+  
+    <meta name="generator" content="Wowchemy 5.4.0 for Hugo" />
+  
+
+  
+  
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+
+  
+  
+  
+    
+      
+      <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto+Mono&family=Roboto:wght@400;700&display=swap" media="print" onload="this.media='all'">
+    
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="David Christafore" />
+
+  
+  
+  
+    
+  
+  <meta name="description" content="I start by loading the packages I will need for the analysis. This is the document. Let’s make it great.
+library(readxl) # For importing Excel files library(haven) # For importing Stata files library(tidyverse)  The Wharton Residential Land Use Regulation Index (WRLURI) is an aggregate index measuring the regulatory constraint on development in a neighborhood." />
+
+  
+  <link rel="alternate" hreflang="en-us" href="https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/" />
+
+  
+  
+  
+    <meta name="theme-color" content="#1565c0" />
+  
+
+  
+  
+
+  
+
+  <link rel="stylesheet" href="/css/vendor-bundle.min.f1ecf783c14edc00c9320c205831ad8e.css" media="print" onload="this.media='all'">
+
+  
+  
+  
+    
+    
+
+    
+    
+    
+    
+      
+      
+    
+    
+    
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/github.min.css" crossorigin="anonymous" title="hl-light" media="print" onload="this.media='all'">
+          <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" media="print" onload="this.media='all'" disabled>
+        
+      
+    
+
+    
+    
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.css" integrity="" crossorigin="anonymous" media="print" onload="this.media='all'">
+    
+
+    
+
+    
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+      
+      
+
+      
+      
+
+      
+    
+  
+
+  
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/wowchemy.512574799414e7d36471486881070b0f.css" />
+
+  
+
+
+
+  
+
+  
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+    <link rel="manifest" href="/manifest.webmanifest" />
+  
+
+  <link rel="icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_32x32_fill_lanczos_center_3.png" />
+  <link rel="apple-touch-icon" type="image/png" href="/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_180x180_fill_lanczos_center_3.png" />
+
+  <link rel="canonical" href="https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/" />
+
+  
+  
+  
+  
+  
+  
+  
+  
+    
+    
+  
+  
+
+  
+  
+    
+    
+  
+  <meta property="twitter:card" content="summary" />
+  
+  <meta property="og:site_name" content="David Christafore" />
+  <meta property="og:url" content="https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/" />
+  <meta property="og:title" content="Analyzing the Relationship between County Natural Amenities and Land-Use Regulations | David Christafore" />
+  <meta property="og:description" content="I start by loading the packages I will need for the analysis. This is the document. Let’s make it great.
+library(readxl) # For importing Excel files library(haven) # For importing Stata files library(tidyverse)  The Wharton Residential Land Use Regulation Index (WRLURI) is an aggregate index measuring the regulatory constraint on development in a neighborhood." /><meta property="og:image" content="https://academic-demo.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" />
+    <meta property="twitter:image" content="https://academic-demo.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_512x512_fill_lanczos_center_3.png" /><meta property="og:locale" content="en-us" />
+  
+    
+      <meta
+        property="article:published_time"
+        content="2022-07-12T00:00:00&#43;00:00"
+      />
+    
+    <meta property="article:modified_time" content="2022-07-12T00:00:00&#43;00:00">
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/"
+  },
+  "headline": "Analyzing the Relationship between County Natural Amenities and Land-Use Regulations",
+  
+  "datePublished": "2022-07-12T00:00:00Z",
+  "dateModified": "2022-07-12T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "David Christafore"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "David Christafore",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://academic-demo.netlify.app/media/icon_hua2ec155b4296a9c9791d015323e16eb5_11927_192x192_fill_lanczos_center_3.png"
+    }
+  },
+  "description": "I start by loading the packages I will need for the analysis. This is the document. Let’s make it great.\nlibrary(readxl) # For importing Excel files library(haven) # For importing Stata files library(tidyverse)  The Wharton Residential Land Use Regulation Index (WRLURI) is an aggregate index measuring the regulatory constraint on development in a neighborhood."
+}
+</script>
+
+  
+
+  
+
+  
+
+  
+
+
+
+
+
+  <title>Analyzing the Relationship between County Natural Amenities and Land-Use Regulations | David Christafore</title>
+</head>
+
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" class="page-wrapper   " data-wc-page-id="9c2a5dc4a635e1a66c3dd8eb6729834f" >
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  <script src="/js/wowchemy-init.min.8f76bdc9e086322ed5147724ebba3d06.js"></script>
+
+  
+
+
+<aside class="search-modal" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#" aria-label="Close"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search" class="form-control"
+        aria-label="Search...">
+        
+      </div>
+
+      
+      
+
+      
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+
+  <div class="page-header">
+    
+
+
+
+
+
+
+
+
+
+
+
+
+<header class="header--fixed">
+  <nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+    <div class="container-xl">
+
+      
+      <div class="d-none d-lg-inline-flex">
+        <a class="navbar-brand" href="/">David Christafore</a>
+      </div>
+      
+
+      
+      <button type="button" class="navbar-toggler" data-toggle="collapse"
+              data-target="#navbar-content" aria-controls="navbar-content" aria-expanded="false" aria-label="Toggle navigation">
+      <span><i class="fas fa-bars"></i></span>
+      </button>
+      
+
+      
+      <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+        <a class="navbar-brand" href="/">David Christafore</a>
+      </div>
+      
+
+      
+      
+      <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+        
+        <ul class="navbar-nav d-md-inline-flex">
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+              
+              
+              
+                
+              
+              
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/#about"><span>About</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/research/"><span>Research</span></a>
+          </li>
+
+          
+          
+
+          
+
+          
+          
+          
+            
+          
+
+          
+
+          
+          
+          
+          
+
+          
+            
+              
+              
+            
+            
+          
+
+          <li class="nav-item">
+            <a class="nav-link " href="/teaching/"><span>Teaching</span></a>
+          </li>
+
+          
+          
+
+        
+
+          
+        </ul>
+      </div>
+
+      <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+
+        
+        
+          
+            
+            <li class="nav-item d-none d-lg-inline-flex">
+              <a class="nav-link" href="https://twitter.com/drchristafore" data-toggle="tooltip" data-placement="bottom" title="Follow me on Twitter" target="_blank" rel="noopener" aria-label="Follow me on Twitter">
+                <i class="fab fa-twitter" aria-hidden="true"></i>
+              </a>
+            </li>
+          
+        
+
+        
+        
+
+        
+        
+        <li class="nav-item dropdown theme-dropdown">
+          <a href="#" class="nav-link" data-toggle="dropdown" aria-haspopup="true" aria-label="Display preferences">
+            <i class="fas fa-moon" aria-hidden="true"></i>
+          </a>
+          <div class="dropdown-menu">
+            <a href="#" class="dropdown-item js-set-theme-light">
+              <span>Light</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-dark">
+              <span>Dark</span>
+            </a>
+            <a href="#" class="dropdown-item js-set-theme-auto">
+              <span>Automatic</span>
+            </a>
+          </div>
+        </li>
+        
+
+        
+        
+
+      </ul>
+
+    </div>
+  </nav>
+</header>
+
+
+  </div>
+
+  <div class="page-body">
+    <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+  
+  
+<div class="article-container pt-3">
+  <h1>Analyzing the Relationship between County Natural Amenities and Land-Use Regulations</h1>
+
+  
+
+  
+    
+
+
+<div class="article-metadata">
+
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jul 12, 2022
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    7 min read
+  </span>
+  
+
+  
+  
+  
+  
+  
+  
+
+  
+  
+
+</div>
+
+    
+
+
+
+
+
+  
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+
+
+<p>I start by loading the packages I will need for the analysis. This is the document. Let’s make it great.</p>
+<pre class="r"><code>library(readxl) # For importing Excel files
+library(haven)  # For importing Stata files
+library(tidyverse) </code></pre>
+<p>The Wharton Residential Land Use Regulation Index (WRLURI) is an aggregate index measuring the regulatory constraint on development in a neighborhood. The index was originally published in 2008 and an updated version was published in 2018. For this analysis, I use the 2008 version. The data are downloaded as a Stata Data file, so I use the <code>read_dta</code> function from the <code>haven</code> package to import it.</p>
+<p>The data set includes a lot of variables on the on answers to the questions used to create the WRLURI. I limit the data set to just the geographic variables, state name and ufips, and the WRLURI. Furthermore, I drop places in Alaska and Hawaii. These states are not included in the natural amenities index. Also, some entries have been included in the data set for which the WRLURI wasn’t calculated, and I drop these observations as well/</p>
+<pre class="r"><code>wrluri_raw &lt;- read_dta(&quot;WHARTON LAND REGULATION DATA_1_24_2008.dta&quot;) |&gt; 
+  select(statename, ufips, WRLURI) |&gt; 
+  filter(!is.na(WRLURI), !statename %in% c(&quot;AK&quot;, &quot;HI&quot;))
+
+glimpse(wrluri_raw)</code></pre>
+<pre><code>## Rows: 2,605
+## Columns: 3
+## $ statename &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, …
+## $ ufips     &lt;dbl&gt; 45784, 33448, 57048, 20104, 3076, 14392, 5980, 57120, 50192,…
+## $ WRLURI    &lt;dbl&gt; -1.14343214, -0.80467761, -1.52855742, -1.29472172, -0.20321…</code></pre>
+<p>Taking a glimpse at the data, we see there are 2605 place observations. <code>statename</code> is a character variable giving the two letter state abbreviation, <code>ufips</code> is a dbl variable for the place code within the state, and <code>WRLURI</code> is the regulation index. <code>statename</code> and <code>ufips</code> should uniquely identify places in the data set, which I first check for.</p>
+<pre class="r"><code>wrluri_raw |&gt; 
+  count(statename, ufips) |&gt; 
+  filter(n &gt; 1)</code></pre>
+<pre><code>## # A tibble: 2 × 3
+##   statename ufips     n
+##   &lt;chr&gt;     &lt;dbl&gt; &lt;int&gt;
+## 1 CT        62710     2
+## 2 FL        62500     2</code></pre>
+<p>In fact, we see two places, one in FL and one in CT, have multiple observations. Without having any additional data on why I have these two duplicates, I will take the average of their WRLURI scores for the place WRLURI. Also, <code>ufips</code> being an identifier should really be a character variable. Since it is numeric, the leading 0s in the 5 digit codes have been dropped, which could cause problems when joining this data to other data. I add back in the leading 0s and make it into a character type.</p>
+<pre class="r"><code>wrluri &lt;- wrluri_raw |&gt;
+  group_by(statename, ufips) |&gt;
+  summarize(across(where(is.numeric), mean), .groups = &quot;drop&quot;) |&gt; 
+  mutate(ufips = str_pad(as.character(ufips), 5, &quot;left&quot;, &quot;0&quot;))</code></pre>
+<p>We have the WRLURI data at the Census place level. The natural amenity data is at the county level. Therefore, I need to use the WRLURI data to assign regulation scores at the county level. To do this, I have to connect Census places to counties. The best resource for this is the Mable Missouri site. I download a crosswalk file from there in <code>geocorr2000.csv</code>.</p>
+<pre class="r"><code>counties_cross_raw &lt;- read_csv(&quot;geocorr2000.csv&quot;, skip = 1)
+head(counties_cross_raw)</code></pre>
+<pre><code>## # A tibble: 6 × 10
+##   county cousubfp `FIPS state` placefp `State Postal Code` cntyname  
+##   &lt;chr&gt;  &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;   &lt;chr&gt;               &lt;chr&gt;     
+## 1 01001  90171    01           03220   AL                  Autauga AL
+## 2 01001  90171    01           99999   AL                  Autauga AL
+## 3 01001  90315    01           06460   AL                  Autauga AL
+## 4 01001  90315    01           99999   AL                  Autauga AL
+## 5 01001  92106    01           99999   AL                  Autauga AL
+## 6 01001  92628    01           48712   AL                  Autauga AL
+## # … with 4 more variables: `County Subdivision Name` &lt;chr&gt;, `Place Name` &lt;chr&gt;,
+## #   `Total Pop, 2000 census` &lt;dbl&gt;, `placefp to county allocation factor` &lt;dbl&gt;</code></pre>
+<p>Inspecting the data, we see that each county has its population broken down by county subdivision (<code>cousubfp</code>) and place (<code>placefp</code>). The <code>ufips</code> code in the WRLURI data actually represents either a county subdivision or a place code. Therefore, in joining the two data sets, we need to join <code>ufips</code> on each of these codes. Also, take into consideration that for some places within counties the <code>cousubfp</code> and <code>placefp</code> are the same. Therefore, after joining the data, I create one WRLURI score for each part of a county by using the WRLURI value found in the WRLURI column from either join.</p>
+<pre class="r"><code>wrluri_counties &lt;- counties_cross_raw |&gt; 
+  rename(statename = `State Postal Code`, pop = `Total Pop, 2000 census`) |&gt;
+  left_join(wrluri, by = c(&quot;statename&quot;, &quot;placefp&quot; = &quot;ufips&quot;)) |&gt; 
+  left_join(wrluri, by = c(&quot;statename&quot;, &quot;cousubfp&quot; = &quot;ufips&quot;)) |&gt; 
+  mutate(WRLURI = if_else(!is.na(WRLURI.x), WRLURI.x, WRLURI.y))</code></pre>
+<p>Now for each part of a county, we have that parts population and the WRLURI index if one exists in the data. To create a WRLURI index for each county, I calculate a population weighted average of all the WRLURI scores that I have for that county. I first drop all county parts without any WRLURI score. In the resulting data, only counties where some part of the county has a regulation score are included.</p>
+<pre class="r"><code>wrluri_by_county &lt;- wrluri_counties |&gt; 
+  filter(!is.na(WRLURI)) |&gt; 
+  mutate(weighted_WRLURI = pop * WRLURI) |&gt; 
+  group_by(county, statename, cntyname) |&gt; 
+  summarize(WRLURI = sum(weighted_WRLURI) / sum(pop), .groups = &quot;drop&quot;) 
+
+glimpse(wrluri_by_county)</code></pre>
+<pre><code>## Rows: 1,194
+## Columns: 4
+## $ county    &lt;chr&gt; &quot;01001&quot;, &quot;01003&quot;, &quot;01005&quot;, &quot;01009&quot;, &quot;01015&quot;, &quot;01017&quot;, &quot;01021…
+## $ statename &lt;chr&gt; &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, &quot;AL&quot;, …
+## $ cntyname  &lt;chr&gt; &quot;Autauga AL&quot;, &quot;Baldwin AL&quot;, &quot;Barbour AL&quot;, &quot;Blount AL&quot;, &quot;Calh…
+## $ WRLURI    &lt;dbl&gt; -0.99175501, -0.86308270, -1.61325812, -1.20440900, -0.32421…</code></pre>
+<p>The resulting data contains WRLURI observations for 1194 counties. The next step is to import the natural amenity data. The file containing the natural amenity rankings <code>natamenf_1_.xls</code> is available for download from somewhere. I use the <code>read_excel</code> function from the <code>readxl</code> package to import the data.</p>
+<p>By first opening the file in Excel, I see the first 101 lines are metadata with definitions of the variables. Lines 102 to 105 contain the column names, and the
+observations begin on line 106. I import the data skipping the first 105 lines, and including the geographic and natural amenity variables important to the analysis. Additionally, after some research, I learned that the Census code for Miami-Dade county was updated in later years from the 12025 used in this data to the 12086 used in the county data, so I make this adjustment.</p>
+<pre class="r"><code>nm &lt;- c(&quot;county&quot;, &quot;census_div&quot;, &quot;amenity_scale&quot;, &quot;amenity_rank&quot;)
+typ &lt;- c(&quot;text&quot;, rep(&quot;skip&quot;, 3), &quot;numeric&quot;, rep(&quot;skip&quot;, 15), rep(&quot;numeric&quot;, 2))
+
+amenities &lt;- read_excel(&quot;natamenf_1_.xls&quot;, 
+                        col_names = nm, 
+                        col_types = typ, 
+                        skip = 105) |&gt; 
+  mutate(county = if_else(county == &quot;12025&quot;, &quot;12086&quot;, county))
+
+glimpse(amenities)</code></pre>
+<pre><code>## Rows: 3,111
+## Columns: 4
+## $ county        &lt;chr&gt; &quot;01001&quot;, &quot;01003&quot;, &quot;01005&quot;, &quot;01007&quot;, &quot;01009&quot;, &quot;01011&quot;, &quot;0…
+## $ census_div    &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,…
+## $ amenity_scale &lt;dbl&gt; 0.78, 1.82, 0.19, -0.15, 0.23, -1.08, -1.16, 0.22, -0.34…
+## $ amenity_rank  &lt;dbl&gt; 4, 4, 4, 3, 4, 3, 3, 4, 3, 4, 4, 4, 4, 4, 4, 3, 4, 3, 4,…</code></pre>
+<p>The resulting data frame includes <code>amenity_scale</code>, <code>amenity_rank</code> based on that scale, <code>census_div</code> code, and <code>county</code> code. <code>amenity_scale</code> is an aggregate score for each county and the rank places counties into quartiles based on the scale. <code>census_div</code> will be easier to work with if we recode it using the names of the divisions represented by the codes.</p>
+<pre class="r"><code>divisions &lt;- c(&quot;New England&quot;, &quot;Middle Atlantic&quot;, &quot;East North Central&quot;, 
+               &quot;West North Central&quot;, &quot;South Atlantic&quot;, &quot;East South Central&quot;,
+               &quot;West South Central&quot;, &quot;Mountain&quot;, &quot;Pacific&quot;)
+
+amenities_recode &lt;- amenities |&gt; 
+  mutate(census_div = factor(census_div, labels = divisions))</code></pre>
+<p>The file <code>all_final_codes.xls</code> from somewhere contains county data on whether the county is urban or rural and whether it has a dependence on certain industries, among other things. The data set is on sheet 2 of the workbook; other sheets contain descriptions of the data and variable definitions. When importing the data, I rename variables to align them with the other data sets and keep all the economic variables and the geographic ones needed for joining to the rest of the data. (don’t need to get into FIPS vs BEA difference since
+not using BEA data here).</p>
+<pre class="r"><code>typologies &lt;- read_excel(&quot;all_final_codes.xls&quot;, sheet = 2) %&gt;% 
+  rename(county = FIPSTXT, statename = State) %&gt;% 
+  select(-FIPS, -County, -BEA_fips)</code></pre>
+<p>Join typologies to amenities .. 30113 &amp; 51780 un matched</p>
+<pre class="r"><code>join_df &lt;- amenities |&gt; 
+  left_join(typologies, by = &quot;county&quot;) |&gt; 
+  left_join(wrluri_by_county, by = c(&quot;county&quot;, &quot;statename&quot;))</code></pre>
+
+    </div>
+
+    
+
+
+
+
+
+
+
+
+<div class="share-box">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/&amp;text=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations" target="_blank" rel="noopener" class="share-btn-twitter" aria-label="twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/&amp;t=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations" target="_blank" rel="noopener" class="share-btn-facebook" aria-label="facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations&amp;body=https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/" target="_blank" rel="noopener" class="share-btn-email" aria-label="envelope">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/&amp;title=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations" target="_blank" rel="noopener" class="share-btn-linkedin" aria-label="linkedin-in">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="whatsapp://send?text=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations%20https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/" target="_blank" rel="noopener" class="share-btn-whatsapp" aria-label="whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=https://academic-demo.netlify.app/post/regulation-amenities/reg_amens/&amp;title=Analyzing%20the%20Relationship%20between%20County%20Natural%20Amenities%20and%20Land-Use%20Regulations" target="_blank" rel="noopener" class="share-btn-weibo" aria-label="weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+  
+  
+  
+    
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+      
+      <a href="https://academic-demo.netlify.app/"><img class="avatar mr-3 avatar-circle" src="/author/david-christafore/avatar_hue776a334b902d7828bf5c7a8aa11ccb3_213712_270x270_fill_q75_lanczos_center.jpg" alt="David Christafore"></a>
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="https://academic-demo.netlify.app/">David Christafore</a></h5>
+      
+      <p class="card-text">My research interests include urban economics, labor economics, and housing economics.</p>
+      <ul class="network-icon" aria-hidden="true">
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+    <li>
+      <a href="mailto:david.r.christafore@gmail.com" >
+        <i class="fas fa-envelope"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://twitter.com/drchristafore" target="_blank" rel="noopener">
+        <i class="fab fa-twitter"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://scholar.google.com/citations?user=lp_Y_L4AAAAJ&amp;hl=en" target="_blank" rel="noopener">
+        <i class="fas fa-graduation-cap"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://github.com/davidchristafore" target="_blank" rel="noopener">
+        <i class="fab fa-github"></i>
+      </a>
+    </li>
+  
+    
+    
+    
+      
+    
+    
+    
+    
+    
+      
+    
+    <li>
+      <a href="https://www.linkedin.com/in/david-christafore-742b38132/" target="_blank" rel="noopener">
+        <i class="fab fa-linkedin"></i>
+      </a>
+    </li>
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+
+
+
+
+
+  </div>
+</article>
+  </div>
+
+  <div class="page-footer">
+    
+    
+    <div class="container">
+      <footer class="site-footer">
+
+  
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+
+
+
+
+
+  <p class="powered-by">
+    
+    
+    
+      
+      
+      
+      
+      
+      
+      Published with <a href="https://wowchemy.com/?utm_campaign=poweredby" target="_blank" rel="noopener">Wowchemy</a> — the free, <a href="https://github.com/wowchemy/wowchemy-hugo-themes" target="_blank" rel="noopener">open source</a> website builder that empowers creators.
+    
+  </p>
+</footer>
+
+    </div>
+    
+  </div>
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+      
+
+    
+    <script src="/js/vendor-bundle.min.b73dfaac3b6499dc997741748a7c3fe2.js"></script>
+
+    
+    
+    
+      
+      
+        <script src="https://cdn.jsdelivr.net/gh/desandro/imagesloaded@v4.1.4/imagesloaded.pkgd.min.js" integrity="sha512-S5PZ9GxJZO16tT9r3WJp/Safn31eu8uWrzglMahDT4dsmgqWonRY9grk3j+3tfuPr9WJNsfooOR7Gi7HL5W2jw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/metafizzy/isotope@v3.0.6/dist/isotope.pkgd.min.js" integrity="sha512-Zq2BOxyhvnRFXu0+WE6ojpZLOU2jdnqbrM1hmVdGzyeCa1DgM3X5Q4A/Is9xA1IkbUeDd7755dNNI/PzSf2Pew==" crossorigin="anonymous"></script>
+      
+
+      
+      
+
+      
+
+      
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/highlight.min.js" integrity="sha512-Ypjm0o7jOxAd4hpdoppSEN0TQOC19UtPAqD+4s5AlXmUvbmmS/YMxYqAqarQYyxTnB6/rqip9qcxlNB/3U9Wdg==" crossorigin="anonymous"></script>
+        
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/r.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/python.min.js" crossorigin="anonymous"></script>
+        
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@10.2.1/build/languages/latex.min.js" crossorigin="anonymous"></script>
+        
+      
+
+    
+
+    
+    
+    
+      <script src="https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/leaflet.min.js" integrity="" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+    
+      
+      <script id="search-hit-fuse-template" type="text/x-template">
+        <div class="search-hit" id="summary-{{key}}">
+          <div class="search-hit-content">
+            <div class="search-hit-name">
+              <a href="{{relpermalink}}">{{title}}</a>
+              <div class="article-metadata search-hit-type">{{type}}</div>
+              <p class="search-hit-description">{{snippet}}</p>
+            </div>
+          </div>
+        </div>
+      </script>
+      
+        <script src="https://cdn.jsdelivr.net/gh/krisk/Fuse@v3.2.1/dist/fuse.min.js" integrity="sha512-o38bmzBGX+hD3JHWUFCDA09btWaqrNmoJ3RXLlrysA7PP01Kgs4UlE4MhelE1v5dJR3+cxlR4qQlotsW7jKsnw==" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/gh/julmot/mark.js@8.11.1/dist/jquery.mark.min.js" integrity="sha512-mhbv5DqBMgrWL+32MmsDOt/OAvqr/cHimk6B8y/bx/xS88MVkYGPiVv2ixKVrkywF2qHplNRUvFsAHUdxZ3Krg==" crossorigin="anonymous"></script>
+      
+    
+
+    
+    
+
+    
+    
+    
+    
+
+    
+    
+      
+      
+      
+      
+      
+      
+      
+    
+
+    
+
+    
+    
+    
+    <script id="page-data" type="application/json">{"use_headroom":true}</script>
+
+    
+    
+      <script src="/js/wowchemy-headroom.1cb9e2fc8399acee94eab837265b73bf.js" type="module"></script>
+    
+    
+    
+    
+    
+    
+    
+      
+      
+    
+    
+    <script src="/en/js/wowchemy.min.247fd8f54253895301106e3006f53f38.js"></script>
+
+    
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+
+
+
+</body>
+</html>
